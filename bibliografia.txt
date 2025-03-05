@@ -1,0 +1,4 @@
+bibliografia:
+
+https://www.statsmodels.org/
+https://pogotowiestatystyczne.pl/
