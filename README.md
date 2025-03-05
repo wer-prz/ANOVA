@@ -8,8 +8,7 @@ Do wyboru:
 (1h;2h) tygodniowo, 
 (2h;3h) tygodniowo,
 (4h;5h) tygodniowo,
-(5h,6h) tygodniowo,
-> 6h tygodniowo.
+(5h,6h) tygodniowo, >6h tygodniowo.
 
 Po zebraniu danych stworzymy podział na 3 grupy badane na podstawie otrzymanych odpowiedzi w taki sposób,
 aby uzyskać 3 równoliczne grupy po min. 158 osób
