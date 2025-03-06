@@ -1,0 +1,18 @@
+α – poziom istotności, przyjmujemy zazwyczaj 0.05
+α - błąd I rodzaju – odrzuciliśmy H0 mimo, że nie była falszywa
+p-value – prawdopodobieństwo popełnienia błędu I rodzaju – chcemy p < α
+
+1 - β – moc testu, chcemy min. 0.8
+β - błąd II rodzaju – nie odrzuciliśmy H0 mimo, że jest fałszywa
+β – prawdopodobieństwo popełnienia błędu II rodzaju
+
+F – statystyka testowa empiryczna: stosunek wariancji międzygrupowej do wariancji wewnątrzgrupowej
+Jeśli F > 1 to wynik jest istotny statystycznie, chcemy F ≥ 2
+Jeśli F < 1 to uznajemy wynik za nieistotny statystycznie
+
+Najważniejsze założenia do testu ANOVA jednoczynnikowa:
+•	odpowiednia moc testu – czyli wymagana minimalna liczebność grup
+•	równa liczebność grup
+
+Hipoteza zerowa: średnie wyniki między grupami nie różnią się
+Hipoteza alternatywna: średnie wyniki różnią między grupami
