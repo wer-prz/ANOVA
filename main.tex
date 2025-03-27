@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\title{Analiza wariancji}
+\author{Weronika Przysiężna}
+\date{Marzec 2025}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+\section{Teoretyczne wprowadzenie do analizy wariancji}
+
+\subsection{Wstęp}
+Analiza wariancji jest analizą statystyczną, która wykrywa różnice między dwiema lub więcej grupami określonymi dla pojedynczego czynnika lub zmiennej niezależnej. Identyfikuje ona zmienność lub wariancję pomiędzy obserwacjami przypisując ją różnym źródłom, które (po odpowiednim przetestowaniu) wskazują, czy zaobserwowane różnice między średnimi grupowymi są prawdopobnie rzeczywiste, czy jedynie wynikiem przypadku. \cite{witte2010statistics}\\
+\\W naszym badaniu skupimy się na wykrywaniu różnic przy pomiarach na różnych osobach.
+
+\subsection{Założenia dotyczące jednoczynnikowej analizy wariancji (ANOVA) z jednym czynnikiem międzyobiektowym}
+
+\begin{itemize}
+    \item \textbf{Zmienna zależna mierzona na skali ilościowej}: zmienna zależna powinna być zmienną ilościową (na poziom interwałowym lub ilorazowym).
+    \item \textbf{Losowość i niezależność obserwacji}: nie ma związku między obserwacjami w każdej grupie lub między samymi grupami, a w każdej grupie są różni uczestnicy badania i żaden uczestnik nie należy do więcej niż jednej grupy;  uczestnicy badania są dobierani losowo.
+    \item \textbf{Równoliczność obserwacji w grupach}: poszczególne kategorie zmiennej niezależnej powinny być statystycznie równoliczne (aby sprawdzić, czy analizowane grupy różnią się istotnie statycznie pod względem liczebności, można zastosować test zgodności Chi-kwadrat).
+    \item \textbf{Rozkład normalny}: rozkład wyników w analizowanych grupach jest zbliżony do rozkładu normalnego (oceny tego założenia można dokonać stosując test Kołomogorowa-Smirnova lub Shapiro-Wilka).
+    \item \textbf{Wariancje w grupach są jednorodne (homogeniczność wariancji)}: zmienność w każdej porównywanej grupie powinna być podobna; jeśli wariancje różnią się między grupami, to można zastosować test Welcha lub Browna-Forsythe'a, które wprowadzają poprawkę na nierówne wariancje do statystyki F.
+
+\end{itemize}
+
+\newpage
+\subsection{Jednoczynnikowa ANOVA}
+
+\subsubsection{Suma kwadratów SS (ang. Sum of Squares)}
+Wariancja próby mierzy zmienność w dowolnym zbiorze obserwacji poprzez obliczenie sumy kwadratów odchyleń od ich średniej:
+$$SS=\sum(X-\overline{X})^2.$$
+Następnie suma kwadratów $SS$ jest dzielona przez liczbę stopni swobody $n-1$:
+$$s^2=\frac{SS}{df},$$
+gdzie:
+\begin{itemize}
+    \item $\overline{X}$ - średnia próby,
+    \item $s^2$ - wariancja próby,
+    \item $df=n-1$ - stopnie swobody.
+\end{itemize}
+
+\subsubsection{Średnia kwadratów MS (ang. Mean Square)}
+Średnia kwadratów to oszacowanie wariancji uzyskane przez podzielenie sumy kwadratów $SS$ przez liczbę stopni swobody $n-1$.
+Ogólny wzór na oszacowanie wariancji ma postać:
+$$MS=\frac{SS}{df},$$
+gdzie:
+\begin{itemize}
+    \item $MS$ - średnia kwadratów,
+    \item $SS$ - suma kwadratów odchyleń od średniej,
+    \item $df = n-1$ - liczba stopni swobody.
+\end{itemize}
+
+\newpage
+\subsubsection{Wzory definicyjne na sumy kwadratów:}
+\begin{enumerate}
+    \item $SS_{total}$ - całkowita suma kwadratów odchyleń od średniej ogólnej (zmienność całkowita)
+    $$SS_{total}=\sum(X-\overline{X}_{grand})^2.$$
+    Równoważny wzór obliczeniowy:
+    $$SS_{total}=\sum X^2-\frac{G^2}{N}.$$
+    \item $SS_{between}$ - suma kwadratów odchyleń średnich grupowych od średniej ogólnej (zmienność między grupami)
+    $$SS_{between}=\sum n(\overline{X}_{group}-\overline{X}_{grand})^2.$$
+    Równoważny wzór obliczeniowy:
+    $$SS_{between}=\sum \frac{T^2}{n}-\frac{G^2}{N}.$$
+    \item $SS_{within}$ - suma kwadratów odchyleń indywidualnych wyników w grupie od średnich grupowych (zmienność wewnątrz grup)
+    $$SS_{within}=\sum(X-\overline{X}_{group})^2.$$
+    Równoważny wzór obliczeniowy:
+    $$SS_{within}=\sum X^2-\sum\frac{T^2}{n}.$$
+    \item Sprawdzamy dokładność obliczeniową weryfikując równość:
+    $$SS_{total}=SS_{between}+SS_{within}$$
+\end{enumerate}
+Oznaczenia:
+\begin{itemize}
+    \item $X$ - pojedyncza wartość obserwowana,
+    \item $\overline{X}_{group}$ - średnia dla danej grupy,
+    \item $\overline{X}_{grand}$ - średnia ogólna dla całej próby,
+    \item $T$ - suma wartości w grupie,
+    \item $n$ - liczba obserwacji w grupie,
+    \item $G$ - suma wartości dla wszystkich grup (suma ogólna),
+    \item $N$ - całkowita liczba obserwacji (sumaryczna wielkość próby). \cite{witte2010statistics}
+\end{itemize}
+
+\newpage
+\subsubsection{Stopnie swobody ($df$):}
+\begin{enumerate}
+    \item $df_{total}=N-1$,
+    \item $df_{between}=k-1$,
+    \item $df_{within}=N-k$,
+\end{enumerate}
+gdzie:
+\begin{itemize}
+    \item $N$ - całkowita liczba obserwacji (sumaryczna wielkość próby),
+    \item $k$ - liczba grup.
+\end{itemize}
+\vspace{2mm}
+Sprawdzamy dokładność obliczeń weryfikując równość:
+$$df_{total}=df_{between}+df_{within}.$$
+
+
+\newpage
+\section{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+
+\end{document}

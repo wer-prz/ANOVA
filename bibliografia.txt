@@ -1,0 +1,8 @@
+bibliografia:
+
+[1] Natalia M. Józefacka, Mateusz F. Kołek, Aleksandra Arciszewska-Leszczuk, Paweł Iwankowski, Metodologia i statystyka Przewodnik naukowego turysty Tom 1, Wydawnictwo Naukowe PWN, Warszawa 2023
+[2] https://www.statsmodels.org/
+[3] https://pogotowiestatystyczne.pl/
+
+
+export .bib tex
