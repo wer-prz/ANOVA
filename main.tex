@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage{graphicx} % Required for inserting images
 
 \usepackage[utf8]{inputenc}
@@ -19,7 +19,7 @@
 Analiza wariancji jest analizą statystyczną, która wykrywa różnice między dwiema lub więcej grupami określonymi dla pojedynczego czynnika lub zmiennej niezależnej. Identyfikuje ona zmienność lub wariancję pomiędzy obserwacjami przypisując ją różnym źródłom, które (po odpowiednim przetestowaniu) wskazują, czy zaobserwowane różnice między średnimi grupowymi są prawdopobnie rzeczywiste, czy jedynie wynikiem przypadku. \cite{witte2010statistics}\\
 \\W naszym badaniu skupimy się na wykrywaniu różnic przy pomiarach na różnych osobach.
 
-\subsection{Założenia dotyczące jednoczynnikowej analizy wariancji (ANOVA) z jednym czynnikiem międzyobiektowym}
+\subsection{Założenia dotyczące jednoczynnikowej analizy wariancji (ANOVA) z jednym czynnikiem międzyobiektowym \cite{orourke2005sas}}
 
 \begin{itemize}
     \item \textbf{Zmienna zależna mierzona na skali ilościowej}: zmienna zależna powinna być zmienną ilościową (na poziom interwałowym lub ilorazowym).
@@ -57,7 +57,7 @@ gdzie:
 \end{itemize}
 
 \newpage
-\subsubsection{Wzory definicyjne na sumy kwadratów:}
+\subsubsection{Wzory definicyjne na sumy kwadratów \cite{witte2010statistics}:}
 \begin{enumerate}
     \item $SS_{total}$ - całkowita suma kwadratów odchyleń od średniej ogólnej (zmienność całkowita)
     $$SS_{total}=\sum(X-\overline{X}_{grand})^2.$$
@@ -82,7 +82,7 @@ Oznaczenia:
     \item $T$ - suma wartości w grupie,
     \item $n$ - liczba obserwacji w grupie,
     \item $G$ - suma wartości dla wszystkich grup (suma ogólna),
-    \item $N$ - całkowita liczba obserwacji (sumaryczna wielkość próby). \cite{witte2010statistics}
+    \item $N$ - całkowita liczba obserwacji (sumaryczna wielkość próby). 
 \end{itemize}
 
 \newpage
@@ -101,6 +101,33 @@ gdzie:
 Sprawdzamy dokładność obliczeń weryfikując równość:
 $$df_{total}=df_{between}+df_{within}.$$
 
+\subsubsection{Wzory na średnie kwadratów \cite{witte2010statistics}:}
+\begin{enumerate}
+    \item $MS_{between}$ - średni kwadrat odchyleń między grupami (zmienność między średnimi dla grup)
+    $$MS_{between}=\frac{SS_{between}}{df_{between}}$$
+    \item $MS_{within}$ - średni kwadrat odchyleń wewnątrz grupy (zmienność wyników wewnątrz grupy; mierzy jedynie błąd losowy)
+    $$MS_{within}=\frac{SS_{within}}{df_{within}}=MS_{error}$$
+\end{enumerate}
+
+\newpage
+\subsubsection{Rozkład F-Snedecora}
+Liczymy statystykę testową $F$ jako:
+$$F=\frac{MS_{between}}{MS_{within}}$$
+\\
+Określamy obszar krytyczny jako:
+$$Q=\{F:F\geq F_{\alpha}\},$$
+gdzie $F_{\alpha}$ jest wartością krytyczną odczytaną z tablic rozkładu F-Snedecora dla $(df_{between},df_{within})$ stopni swobody, czyli  $F(df_{between},df_{within})$.
+\\
+\begin{enumerate}
+    \item Jeżeli $F\in Q$ ($F\geq F_{\alpha}$), to odrzucamy hipotezę zerową $H_0$ na korzyść hipotezy alternatywnej $H_A$ i wnioskujemy, że badane średnie nie są sobie równe.
+    \item Jeżeli $F\not\in Q$ ($F< F_{\alpha}$), to nie ma podstaw do odrzucenia hipotezy zerowej $H_0$ i wnioskujemy, że badane średnie są równe.
+\end{enumerate}
+
+
+\newpage
+\subsubsection{Testy post-hoc (test HSD Tukey'a)}
+
+\subsubsection{Obliczenie siły efektu (d Cohen'a)}
 
 \newpage
 \section{Bibliografia}
