@@ -1,13 +1,61 @@
 \documentclass[12pt,a4paper]{article}
+\usepackage[a4paper, left=3cm, right=3cm, top=3cm, bottom=3cm]{geometry}
+\hyphenpenalty=10000
+\renewcommand{\tablename}{Tabela}
 \usepackage{graphicx} % Required for inserting images
-
+\usepackage{array}
+\usepackage{caption}
+\usepackage{microtype}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+\sloppy
+
+\definecolor{darkgreen}{rgb}{0,0.70,0}
+\definecolor{lightblue}{rgb}{0.0,0.42,0.91}
+\definecolor{grey}{rgb}{0.60, 0.60, 0.60}
 
 \title{Analiza wariancji}
 \author{Weronika Przysiężna}
 \date{Marzec 2025}
 
+\setlength{\parindent}{0pt}
+\lstset{
+  language=Python,
+  aboveskip=1em,
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  abovecaptionskip=-6pt,
+  captionpos=b,
+  escapeinside={\%*}{*)},
+  frame=single,
+  numberstyle=\tiny,
+  keywordstyle=\color{lightblue},
+  commentstyle=\color{grey},
+  stringstyle=\color{darkgreen},
+  showstringspaces=false,
+  tabsize=4,
+  literate={{ą}{{\k a}}1
+           {Ą}{{\k A}}1
+           {ż}{{\. z}}1
+           {Ż}{{\. Z}}1
+           {ź}{{\' z}}1
+           {Ź}{{\' Z}}1
+           {ć}{{\' c}}1
+           {Ć}{{\' C}}1
+           {ę}{{\k e}}1
+           {Ę}{{\k E}}1
+           {ó}{{\' o}}1
+           {Ó}{{\' O}}1
+           {ń}{{\' n}}1
+           {Ń}{{\' N}}1
+           {ś}{{\' s}}1
+           {Ś}{{\' S}}1
+           {ł}{{\l}}1
+           {Ł}{{\L}}1}
+}
 
 \begin{document}
 
@@ -130,9 +178,192 @@ gdzie $F_{\alpha}$ jest wartością krytyczną odczytaną z tablic rozkładu F-S
 \subsubsection{Obliczenie siły efektu (d Cohen'a)}
 
 \newpage
+\section{Praktyczne zastosowanie analizy wariancji}
+W celu zilustrowania praktycznego zastosowania analizy wariancji przeprowadziłam badania na dwóch zestawach danych:
+
+\begin{enumerate}
+    \item Dane uzyskane za pośrednictwem ankiet, których celem jest analiza hipotetycznych zależności między czasem poświęcanym tygodniowo na aktywność fizyczną a nawykami oraz jakością życia.
+    \item Dane udostępnione na platformie Kaggle.com, umożliwiające zbadanie potencjalnych zależności między [...] \footnote{Dane wykorzystane w analizie pochodzą z platformy Kaggle.com i zostały syntetycznie wygenerowane. Oznacza to, że nie są wynikiem rzeczywistych pomiarów, lecz zostały stworzone na podstawie określonych założeń i symulacji.}
+\end{enumerate}
+W dalszej części omówię proces pozyskania obu zbiorów danych oraz przedstawię w jaki sposób przeprowadziłam analizę statystyczną danych.
+
+\vspace{8mm}
+
+\subsection{Badanie zależności między czasem poświęcanym na aktywność fizyczną a jakością życia}
+
+\vspace{5mm}
+
+\subsubsection{Metodologia pozyskiwania danych ankietowych}
+Dane zostały zebrane za pomocą ankiety utworzonej w Google Forms i udostępnionej w mediach społecznościowych, w tym na grupach na Facebooku zrzeszających osoby aktywne fizycznie oraz studentów, a także na prywatnych profilach na Facebooku i Instagramie, skierowanych do znajomych.
+
+\vspace{3mm}
+
+Grupą badaną są młodzi dorośli w wieku 18-35 lat, posługujący się językiem polskim, posiadający dostęp do internetu oraz do mediów społecznościowych.
+
+\newpage
+Pytaliśmy uczestników badania o ich wiek, płeć oraz odpowiedzi na poniższe pytania:
+\begin{enumerate}
+    \item {Ile czasu średnio tygodniowo poświęcasz na aktywność fizyczną? \\ (np. siłownia/rower/bieganie/taniec/joga)}
+    \item Ile czasu średnio tygodniowo spędzasz na pozasportowych spotkaniach towarzyskich? Chodzi o spotkania ze znajomymi poza szkołą/miejscem pracy.
+    \item {Ile czasu średnio dziennie spędzasz przed ekranem poza pracą/szkołą? \\ 
+    (TV, komputer, telefon)}
+    \item Ile czasu średnio śpisz w ciągu doby?
+    \item {Ile razy chorowałeś/chorowałaś w ciągu ostatnich 12 miesięcy? \\
+    (przeziębienie, grypa, choroby inne niż przewlekłe)}
+    \item Na ile (w skali 1 - 10) oceniasz swoje ogóle poczucie szczęścia i zadowolenia z życia?
+\end{enumerate}
+\vspace{4mm}
+
+Możliwe do wyboru odpowiedzi dla poszczególnych pytań prezentuje tabela:
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline \textbf{Pytania 1, 2, 3, 4} & \textbf{Pytanie 5} & \textbf{Pytanie 6} \\ \hline 
+        mniej niż 1 godzinę & 0 - wcale &\\ \hline
+        1 - 2 godziny & 1 raz & 1 - bardzo źle \\ \hline
+        2 - 3 godziny & 2 razy & 2 \\ \hline
+        3 - 4 godziny & 3 razy & 3 \\ \hline
+        4 - 5 godzin & 4 razy & 4 \\ \hline
+        5 - 6 godzin & 5 razy & 5 \\ \hline
+        6 - 7 godzin & 6 razy & 6 \\ \hline
+        7 - 8 godzin & 7 razy & 7 \\ \hline
+        8 - 9 godzin & 8 razy & 8 \\ \hline
+        więcej niż 9 godzin & 9 razy & 9 \\ \hline
+         & 10 - 10 lub więcej niż 10 razy & 10 - bardzo dobrze \\ \hline
+    \end{tabular}
+    \caption*{Tabela 1}
+\end{table}
+
+\newpage
+\subsubsection{Wyniki ankiety}
+W wyniku ankiety uzyskaliśmy 597 odpowiedzi.
+
+\vspace{2mm}
+Uzyskane dane wymagały przetworzenia w formę umożliwiającą ich dalszą analizę, tak aby odpowiedzi na pytania 1-6 były zapisane jako dane numeryczne. W tym celu opracowałam program w języku Python, który automatycznie wykonuje tę operację:
+
+\vspace{3mm}
+\begin{lstlisting}
+import pandas as pd
+
+dane = pd.read_excel('dane.xlsx')       # wczytanie pliku
+
+dane = dane.iloc[:, 1:]                 # usunięcie 1. kolumny
+
+dane.columns = ['wiek', 'płeć', 
+                'akt_fiz', 'spot_tow',
+                'ekran', 'sen', 
+                'choroby', 'szczescie'] # zmiana nazw kolumn
+
+dane = dane[dane['wiek'] <= 35]         # usunięcie wierszy, 
+                                        # w których wiek > 35
+
+dane = dane.reset_index(drop=True)      # resetowanie indeksów
+
+# funkcja do konwersji wartosci w kolumnach
+def konwertuj(wartosc):
+    if 'mniej niż' in wartosc:
+        return 0
+    elif 'więcej niż' in wartosc:
+        return 9
+    elif '-' in wartosc:
+        return int(wartosc.split('-')[0].strip())
+    elif 'Kobieta' in wartosc:
+        return 'K'
+    elif 'Mężczyzna' in wartosc:
+        return 'M'
+    elif 'Inne' in wartosc:
+        return 'I'
+
+dane['płeć'] = dane['płeć'].astype(str).apply(konwertuj)
+dane['akt_fiz'] = dane['akt_fiz'].astype(str).apply(konwertuj)
+dane['spot_tow'] = dane['spot_tow'].astype(str).apply(konwertuj)
+dane['ekran'] = dane['ekran'].astype(str).apply(konwertuj)
+dane['sen'] = dane['sen'].astype(str).apply(konwertuj)
+
+print(dane)
+\end{lstlisting}
+
+\newpage W rezultacie pozostały 522 wiersze z odpowiedziami.
+
+\begin{lstlisting}
+      wiek płeć  akt_fiz  spot_tow  ekran  sen  choroby  szczescie
+0      31    M        9         7      4    6        2          7
+1      25    M        2         3      2    6        5          7
+2      29    M        2         5      5    7        4          3
+3      25    M        6         0      9    6        3          4
+4      29    M        3         2      7    7        1         10
+..    ...  ...      ...       ...    ...  ...      ...        ...
+517    25    M        6         7      3    8        1          9
+518    32    M        0         3      3    5        1          7
+519    32    M        1         9      1    7        5          8
+520    25    M        0         2      3    8        1          5
+521    25    M        0         0      9    6        2          4
+\end{lstlisting}
+
+\subsubsection{Wstępna analiza zebranych danych}
+
+Wywołanie \texttt{describe} dla wybranych kolumn pozwoliło na uzyskanie zbiorczego opisu statystycznego tych zmiennych. 
+\begin{lstlisting}
+    print(dane[['wiek', 'płeć', 'akt_fiz', 'spot_tow', 'ekran', 
+    'sen', 'choroby', 'szczescie']].describe(include='all'))
+\end{lstlisting}
+W wyniku wywołania powyższej linijki kodu otrzymujemy:
+\begin{lstlisting}[basicstyle=\ttfamily\fontsize{7}{8}\selectfont\color{black},
+  keywordstyle=\color{black},
+  commentstyle=\color{black},
+  stringstyle=\color{black},
+  frame=single]
+              wiek płeć     akt_fiz    spot_tow       ekran         sen     choroby   szczescie
+count   522.000000  522  522.000000  522.000000  522.000000  522.000000  522.000000  522.000000
+unique         NaN    3         NaN         NaN         NaN         NaN         NaN         NaN
+top            NaN    M         NaN         NaN         NaN         NaN         NaN         NaN
+freq           NaN  373         NaN         NaN         NaN         NaN         NaN         NaN
+mean     26.168582  NaN    3.340996    3.105364    3.894636    6.358238    2.055556    6.281609
+std       3.857631  NaN    2.825475    2.753189    2.415245    1.185331    1.784659    2.155920
+min      18.000000  NaN    0.000000    0.000000    0.000000    0.000000    0.000000    1.000000
+25%      24.000000  NaN    1.000000    1.000000    2.000000    6.000000    1.000000    5.000000
+50%      26.000000  NaN    3.000000    2.000000    3.000000    6.000000    2.000000    7.000000
+75%      29.000000  NaN    5.000000    5.000000    5.000000    7.000000    3.000000    8.000000
+max      35.000000  NaN    9.000000    9.000000    9.000000    9.000000   10.000000   10.000000
+\end{lstlisting}
+
+Funkcja zwróciła m.in.:
+\begin{itemize}
+    \item liczność (\texttt{count}) – liczbę dostępnych wartości,
+    \item średnią (\texttt{mean}) – wartość przeciętną,
+    \item odchylenie standardowe (\texttt{std}) – miarę rozproszenia danych,
+    \item minimalną i maksymalną wartość (\texttt{min}, \texttt{max}),
+    \item percentyle (\texttt{25\%}, \texttt{50\%} (mediana), \texttt{75\%}), które pokazują, jak dane są rozłożone.
+    \item liczność (\texttt{count}),
+    \item liczba unikalnych wartości (\texttt{unique}),
+    \item najczęściej występująca wartość (\texttt{top}),
+    \item częstość występowania tej wartości (\texttt{freq}).
+\end{itemize}
+
+Dzięki tym informacjom możliwe było uzyskanie pierwszego wglądu w rozkład danych.
+
+\newpage
+\subsubsection{Wstępna analiza zebranych danych}
+
+
+
+
+
+\newpage
+\subsection{Badanie zależności między [...]}
+\subsubsection{Opis danych}
+\subsubsection{Analiza statystyczna zebranych danych}
+
+
+\newpage
+
+
 \section{Bibliografia}
+
+Pozycje \cite{gitkkozlowski}, \cite{pandas}, \cite{statsmodels} służyły jako pomoc przy pisaniu kodów w LaTeX i Python.
 \bibliographystyle{plain}
 \bibliography{bibliografia}
+
 
 
 \end{document}
