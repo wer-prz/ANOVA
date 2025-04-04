@@ -61,7 +61,7 @@
 
 \maketitle
 \newpage
-\section{Teoretyczne wprowadzenie do analizy wariancji}
+\section{Teoretyczne wprowadzenie do jednoczynnikowej analizy wariancji}
 
 \subsection{Wstęp}
 Analiza wariancji jest analizą statystyczną, która wykrywa różnice między dwiema lub więcej grupami określonymi dla pojedynczego czynnika lub zmiennej niezależnej. Identyfikuje ona zmienność lub wariancję pomiędzy obserwacjami przypisując ją różnym źródłom, które (po odpowiednim przetestowaniu) wskazują, czy zaobserwowane różnice między średnimi grupowymi są prawdopobnie rzeczywiste, czy jedynie wynikiem przypadku. \cite{witte2010statistics}\\
@@ -171,11 +171,50 @@ gdzie $F_{\alpha}$ jest wartością krytyczną odczytaną z tablic rozkładu F-S
     \item Jeżeli $F\not\in Q$ ($F< F_{\alpha}$), to nie ma podstaw do odrzucenia hipotezy zerowej $H_0$ i wnioskujemy, że badane średnie są równe.
 \end{enumerate}
 
+\subsubsection{Testy post-hoc (test HSD Tukey'a)}
+Odrzucenie hipotezy zerowej w analizie ANOVA pozwala nam stwierdzić, że istnieją różnice między średnimi
+w badanych grupach, nie mówi nam jednak, które z badanych średnich są różne.
+Testy post-hoc, znane także jako porównania wielokrotne lub parami, są stosowane po analizie wariancji w celu określenia różnic pomiędzy średnimi.
+\\
+
+Test HSD Tukeya (ang. Tukey’s honest significant difference test) bazuje na rozkładzie “studentized range
+(q) distribution” - rozkładzie zbliżonym do rozkładu t-studenta. Dla każdej hipotezy zerowej: $$H_0 : \mu_i = \mu_j$$
+statystyka testowa dana jest wzorem:
+$$HSD = q \sqrt{\frac{MS_{error}}{n}},$$
+gdzie:
+\begin{itemize}
+    \item $HSD$ - minimalna różnica między dwiema średnimi, która jest uznawana za istotną statystycznie,
+    \item $q$ - wartość krytyczna, którą odczytujemy z tabeli wartości krytycznych dla testu HSD Tukey'a; zależy od liczby poziomów zmiennej niezależnej i liczby stopni swobody błędu,
+    \item $MS_{error}$ - (Mean Square Error) wariancja błędu z analizy ANOVA - miara tego, jak bardzo wartości różnią się od siebie w obrębie każdej grupy,
+    \item $n$ - liczba osób (próbek) w każdej grupie (zakładamy równoliczne grupy; jeśli grupy są nierównoliczne, stosuje się uśrednioną wielkość próby).
+\end{itemize}
 
 \newpage
-\subsubsection{Testy post-hoc (test HSD Tukey'a)}
-
 \subsubsection{Obliczenie siły efektu (d Cohen'a)}
+Wielkość efektu dla dowolnej istotnej różnicy między parami średnich można oszacować za pomocą współczynnika d Cohena dla testu ANOVA dla niezależnych grup (czyli każda osoba jest w innej grupie):
+$$d=\frac{\overline{X}_1-\overline{X}_2}{s^2_p},$$
+gdzie:
+\begin{itemize}
+    \item $\overline{X}_1-\overline{X}_2$ - różnica między średnimi dwóch grup,
+    \item $s_p$ - wspólne odchylenie standardowe liczone jako: $$s_p=\sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{n_1+n_2-2}},$$ gdzie:
+    \begin{itemize}
+        \item $s^2_1$, $s^2_2$ - wariancje w grupach 1 i 2,
+        \item $n_1$, $n_2$ - liczności próbek w grupach 1 i 2,
+        \item $n_1+n_2-2$ - stopnie swobody dla wariancji błędu,
+    \end{itemize}
+\end{itemize}
+czyli uśredniamy wariancję w obu grupach.
+
+\subsubsection{Podsumowanie}
+Jednoczynnikowa analiza wariancji (ANOVA) jest metodą statystyczną służącą do wykrywania istotnych różnic między średnimi grup, opartą na porównaniu wariancji. W ramach tej analizy zakłada się, że zmienne zależne są mierzone na skali ilościowej, a obserwacje są losowe i niezależne, z równolicznością grup i jednorodnością wariancji. \\
+
+Obliczenia obejmują sumy kwadratów (SS) oraz średnie kwadraty (MS), które są podstawą do obliczenia statystyki F-Snedecora. W przypadku odrzucenia hipotezy zerowej, stosuje się testy post-hoc, takie jak test Tukeya, które pozwalają na identyfikację par grup różniących się istotnie. Dodatkowo, siła efektu (d Cohena) jest wykorzystywana do oceny praktycznej istotności zaobserwowanych różnic. \\
+
+W kolejnej części pracy przedstawione zostaną wyniki praktyczne analizy.
+
+% ----------------------------------------------------------------------------------------------------------------
+
+
 
 \newpage
 \section{Praktyczne zastosowanie analizy wariancji}
