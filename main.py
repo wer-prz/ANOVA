@@ -1,4 +1,6 @@
 from statsmodels.stats.power import FTestAnovaPower
+import statsmodels.stats.power as smp
+from tabulate import tabulate
 from math import ceil
 import pandas as pd
 from scipy import  stats
@@ -187,12 +189,58 @@ grupa_badana = grupa_3
 
 # test ANOVA (Fisher’a)
 stat_anova, p_anova = stats.f_oneway(grupa_1, grupa_2, grupa_3)
-print(f"\nStatystyka testu ANOVA (Fisher'a): {stat_anova}")
+print(f"\nStatystyka testu ANOVA (Fishera): {stat_anova}")
 print(f"p-wartość: {p_anova}")
 if (p_anova < alpha):
     print("Istnieją istotne różnice między grupami.")
 else:
     print("Brak istotnych różnic między grupami.")
+
+alpha = 0.05
+groups = 3
+
+means = [np.mean(grupa_1), np.mean(grupa_2), np.mean(grupa_3)]
+grand_mean = np.mean(np.concatenate([grupa_1, grupa_2, grupa_3]))
+
+variance_1 = np.var(grupa_1, ddof=1)
+variance_2 = np.var(grupa_2, ddof=1)
+variance_3 = np.var(grupa_3, ddof=1)
+
+df_between = groups - 1
+df_within = len(grupa_1) + len(grupa_2) + len(grupa_3) - 3
+df_total = len(grupa_1) + len(grupa_2) + len(grupa_3) - 1
+
+ss_between = sum(len(grupa_1) * (mean - grand_mean)**2 for mean in means)
+ss_within = ((variance_1 * (len(grupa_1) - 1))
+            + (variance_2 * (len(grupa_2) - 1))
+            + (variance_3 * (len(grupa_3) - 1)))
+ss_total = ss_between + ss_within
+
+ms_between = ss_between / df_between
+ms_within = ss_within / df_within
+
+f_stat = ms_between / ms_within
+effect_size_f = np.sqrt(ss_between / ss_total)
+
+stat_anova, p_anova = stats.f_oneway(grupa_1, grupa_2, grupa_3)
+
+anova_power = smp.FTestAnovaPower()
+total_n = len(grupa_1) + len(grupa_2) + len(grupa_3)
+power_anova = anova_power.power(effect_size=effect_size_f,
+                k_groups=groups, nobs=total_n, alpha=alpha)
+
+table = [["Pomiędzy grupami", f"{ss_between:.2f}", df_between,
+          f"{ms_between:.2f}", f"{f_stat:.2f}", f"{p_anova:.4f}",
+          f"{effect_size_f:.3f}", f"{power_anova:.4f}"],
+        ["Wewnątrz grup", f"{ss_within:.2f}", df_within,
+         f"{ms_within:.2f}", "", ""],
+        ["Całkowita", f"{ss_total:.2f}", df_total, "", "", ""]]
+
+headers = ["Źródło zmienności", "Suma kwadratów (SS)",
+           "Stopnie swobody (df)", "Średni kwadrat (MS)",
+           "F", "p-wartość", "f Cohena", "Moc"]
+
+print(tabulate(table, headers=headers, tablefmt="grid"))
 
 # test Welch'a
 wyniki = pg.welch_anova(dv=zmienna, between='grupa', data=dane)
@@ -207,6 +255,7 @@ if (p_val < alpha):
 else:
     print("Brak istotnych różnic między grupami.")
 
+
 # test Kruskala-Wallisa
 stat_kruskal, p_kruskal = stats.kruskal(grupa_1, grupa_2, grupa_3)
 print(f"\nStatystyka testu Kruskala-Wallisa: {stat_kruskal}")
@@ -215,6 +264,7 @@ if (p_kruskal < alpha):
     print("Istnieją istotne różnice między grupami.")
 else:
     print("Brak istotnych różnic między grupami.")
+
 
 # ------------------------------------------------ HISTOGRAMY ----------------------------------------------------------
 # tworzenie histogramu
